@@ -1,4 +1,4 @@
-rootProject.name = "Corona Native Android"
+rootProject.name = "Native Plugin Example"
 include("app", "plugin")
 
 if (settings.hasProperty('coronaExpansionFileName')) {

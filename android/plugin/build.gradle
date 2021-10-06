@@ -9,11 +9,29 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+    packagingOptions {
+        exclude 'lib/**/liblua.so'
+        exclude 'lib/**/libcorona.so'
+    }
 }
 
 dependencies {
     implementation ':Corona@aar'
 }
+
+tasks.register("explodeCoronaAAR", Copy) {
+    println "$s2dNative/Corona/android/lib/gradle/Corona.aar"
+    from(zipTree("$s2dNative/Corona/android/lib/gradle/Corona.aar")) {
+        include("jni/**")
+    }
+    into(layout.buildDirectory.dir("intermediates/coronaJNI"))
+}
+preBuild.dependsOn explodeCoronaAAR
 
 task extractPluginJar() {
     group "Solar2Dev"
